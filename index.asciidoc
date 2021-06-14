@@ -1,0 +1,293 @@
+= The MASH-JSON Media Type (Machine Acessible Semantic Hypermedia)
+:author: Mike Amundsen
+:email: mca@amundsen.com
+:toc: 
+
+== Status
+Doc Status:: 
+  *[white red-background]#Working Draft#* -- _Only experimental and `proof-of-concept' apps should be built on this unstable draft._
+Proposed IANA Registrations::
+  +application/vnd.mash+json+
+Repository::
+  https://github.com/mamund/mash-json
+Sample Implementation::
+  NA
+Last Updated::
+  {docdate}
+
+== Summary
+This document describes a simple media type designed to make it easy to for machines to interact via a stable hypermedia ormat. It was created as part of the "RESTful Web Microservices" book (<<rwmbook, [RWMBook]>> project for O'Reilly Media.
+
+=== Motivation
+*MASH-JSON* is designed to make it easy for "headless" machines to interact with each other on the web using common patterns from the web. The format makes both data and actions explicit within the response representation and has design elements (+id+, +name+, & +rel+) that can hold unique identify information that does NOT rely on the resource's location (+URL+) or it's semantic contents (+givenName+, +familyName+, etc.). 
+
+*MASH-JSON* taps into the power of the web by making it easy to link resources, easy to discover and follow those links, and easy to predict what will be at the "other end" of the link before it is followed. *MASH-JSON* was designed with HTML (<<html5, [HTML5]>>) in mind but should be helpful in other network-level protocols that follow a similar pattern (identifier, headers, & body).
+
+*MASH-JSON* supports a high degree of loose coupling by limiting protocol knowlege to supporting links for forms and limiting domain data knowledge to supporting an application profile identifier (e.g. via Application-Level Profile Semantics (<<alps,[ALPS]>>).
+
+*MASH-JSON* was designed to compliment the book RESTful Web Microservices (<<rwmbook, [RWMBook]>>). This book is a collection of recipes and principles to help readers through the process of creating microservice-style implementations that rely on hypermedia to connect and share information at runtime. 
+
+=== Updates
+There is an open source repository <<repo,[REPO]>> for this specification. Readers are encouraged to submit updates via the repository any time.
+
+=== Compliance
+An implementation (client or server) of this specification is not compliant if it fails to satisfy one or more of the MUST or REQUIRED elements. An implementation that satisfies all the MUST and REQUIRED elements as well as all the SHOULD and RECOMMENDED elements is said to be "unconditionally compliant"; one that satisfies all the MUST and REQUIRED elements but not all the SHOULD and RECOMMENDED elements is said to be "conditionally compliant."
+
+.RFC2119 Words
+****
+The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", 
+"SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be 
+interpreted as described in <<rfc2119,[RFC2119]>>.
+****
+
+== The MASH-JSON Media Type
+
+
+The *MASH-JSON* media type is a simple JSON <<rfc7159,[RFC7159]>> document that contains runtime status information about network resources on the Web. *MASH-JSON* has three root elements;
+
+ * +metadata+ : Contains an array of message metadata
+ * +forms+ : Contains an array of simple web links and rich forms for navigating the application space and modifying it's state
+ * +items+ : Contains an array of data items. The +items+ collection represents the data associated with the network resource.
+
+This media type can be used to provide dynamic representations of application state at runtime.
+
+=== Example MASH-JSON document
+Below is a sample *MASH-JSON* document example:
+
+.Sample *PRAG-JSON* document.
+----
+{
+  "metadata" : [ 
+    {"name" : "title", "value" : "BigCo Onboarding"},
+    {"name" : "author", "value" : "Mike Amundsen"},
+    {"name" : "updated", "value" : "2020-03-01"} 
+  ],
+  "forms" : [ 
+    {
+      "id" : "q1w2e",
+      "rel" : "home",
+      "name" : "home",
+      "href" : "http://api.example.org/",
+      "title" : "Home Page",
+      "method" : "GET",
+      "properties" : [ 
+        {"name" : "filter", "value" : ""} 
+      ]
+    } 
+  ],
+  "items" : [ 
+    {
+      "id" : "za1xs2cd3",
+      "type": "wip",
+      "forms" : [
+        {
+          "id" : "q1w2e3r4"
+          "name" : "item",
+          "href" : "http://api.example.org/q1w2e3r4",
+          "title" : "Read Item",
+          "method" : "GET",
+          "properties": []
+        }
+      ],
+      "schema" : "api.example.org/schema/wip.json",
+      "data" : {
+        "wipIdentifier" : "q1w2e3r4",
+        "customerIdentifier" : "w2e3r4t5",
+        "accountIdentifier" : "e3r4t5y6",
+        "activityIdentifier" : "r4t5y6u7",
+        "givenName" : "Idara",
+        "familyName" : "Adams",
+        "email" : "idara.adams@example.org",
+        "telephone" : "123.456.7890",
+        "status" : "pending",
+        "maxValue" : "5000",
+        "discount" : "10"
+      }  
+    } 
+  ]
+}
+----
+
+=== IANA Media Type Registration for MASH-JSON
+The media type identifier string for *MASH-JSON* documents is: +application/vnd.mash+json+  This SHOULD be used as part of the HTTP +accept+ header when making a request for a *MASH-JSON* document. It SHOULD appear as the HTTP +content-type+ header when sending a response that contains a *MASH-JSON* document. 
+
+== Elements of a MASH-JSON Document
+All *MASH-JSON* documents MUST be valid JSON documents. A well-formed *MASH-JSON* document has three top-level objects: +metadata+, +forms+ and +items+. The following is a summary of the structure of the *MASH-JSON* media type.
+
+=== The +metadata+ Element
+The +metadata+ element is meant to hold message-level information _about_ the payload of the response. This might be individual data properties that describe the payload, references to other related content, etc. Anything that might be needed in order to improve the understanding of the payload itself. The role played by the +metadata+ element in *MASH-JSON* is similar to the role played by the +meta+ tag in HTML5 (<<html5-tag, [HTML5-TAG]>>).
+
+The +metadata+ element is an array of anonymous JSON objects. The default properties of +metadata+ objects that SHOULD appear are +name+ and +value+. Possible additional properties that MAY be part of a +metadata+ object include: +id+, +type+, +title+, +tags+, +href+ and others. Other properties not defined by this specification MAY appear as well.
+
+.Sample +metadata+ object
+----
+{
+  "name" : "".
+  "value" : "",
+  "id" : "",
+  "type" : "",
+  "title" : "",
+  "tags" : "",
+  "href" : ""
+}
+----
+
+The +metadata+ element SHOULD NOT contain any +forms+ or +items+ elements as they are meant to appear in their own collection.
+
+=== The +forms+ Element
+The +forms+ element contains any links and/or forms associated with the *MASH-JSON* document.  The +forms+ collection is an array of anonymous JSON +form+ objects. These +form+ objects are designed to carry complete details on Web navigation between resources including any protocol methods, arguments, and so forth. Any time the message needs to render a navigation or state change, this should appear as a +form+ object. The +forms+ object plays a role in *MASH-JSON* similar to HTML5's +link+ (<<html5-link,HTML5-LINK>>), +a+ (<<html5-a, HTML5-A>>), and +form+ (<<html5-form, HTML5-FORM>>) tags.
+
+The default properties of a +form+ object that SHOULD appear are: +id", +name+, +href+, +method+, and +properties+. Additional properties that MAY appear are: +id+, +title+, +rel+, +tags+, +type+, and +enctype+. Other properties not defined by this specification MAY appear as well.
+
+.Sample +form+ object
+----
+{
+  "id" : "".
+  "name" : "",
+  "href" : "",
+  "title" : "",
+  "type" : "".
+  "rel" : "",
+  "tags" : "",
+  "enctype" : "",
+  "method" : "",
+  "properties" : [
+    {"name" : "", "value" : ""}
+  ]
+}
+----
+
+=== The +properties+ Array
+The +properties+ array within a +form+ object contains one or more anonymous +property+ objects. A +property+ object SHOULD have +name+ and +value+ properties. It MAY have additional properties including +id+, +title+, +required+, +readonly+, +pattern+, +type+, and +tags+. Other properties not defined by this specification MAY appear as well. The role the +property+ object plays in *MASH-JSON* is similar HTML5's +input+ (<<html5-input, HTML5-INPUT>>) element.
+
+.Sample +property+ object
+----
+{
+  "id", : "",
+  "name" : "",
+  "value" : "",
+  "title" : "",
+  "required" : "[true|false]",
+  "readonly" : "[true|false]",
+  "pattern" : "",
+  "type" : "",  
+  "tags" : ""
+}
+----
+
+The +forms+ element SHOULD NOT contain any +metadata or +items+ elements as they are meant to appear in their own collection.
+
+=== The +items+ Element
+The +item+ element contains one or more data items that represent the state of the requested resource. The +items+ collection is an array of anonymous JSON arbitrary objects. The +items+ collection SHOULD contain a homogeneous JSON objects (e.g. all +customer+ objects) but MAY contain a heterogeneous collection of objects. 
+
+Each +item+ object SHOULD have +id+, +type+, and +schema+ properties and MAY have any number of additional properties. The data for an +item+ MAY be a set of properties at the "top" level or MAY be nested within a single named code (e.g. +graph+ or +data+, etc. Each +item+ object is essentially a graph arbitrary depth and complexity. The +schema+ property of an +item+ SHOULD provide enough information to allow message-handlers to properly parse the +item+.
+
+.Sample +item+ object
+----
+{
+  "id" : "",
+  "type" : "",
+  "schema" : "",
+  "links" : [...],
+  "data": {...}
+  ...
+}
+----
+
+The +schema+ property SHOULD point to a JSON-Schema (<<json-schema, JSON-SCHEMA>>) document but MAY point to some other document.
+
+An +item+ object MAY also include a single +forms+ collection. This +forms+ collection within an +item+ object follows the same rules as the top-level +forms+ collection (see above). 
+
+=== MASH-JSON Properties
+Below is a list of valid *MASH-JSON* properties defined in this specification. These properties MAY appear in more than one place within a valid *MASH-JSON* message. 
+
++*enctype*+:: 
+This property represents the media type to use when encoding a mesage body to be sent during a state transition. The default value for this field is +application/x-www-form-urlencoded+ (see <<form-encoded, [FORM-ENCODED]>>). However, other valid media type string (<<iana-mediatypes, [IANA-MEDIATYPES]>>) MAY appear in the +enctype+ property. All compliant implementations of this specification MUST support the +application/x-www-form-urlencoded+ format. They SHOULD also support the +application/json+ (see <<rfc7159, [RFC7159]>>) format and MAY support other formats.
+
++*href*+::
+The +href+ property MUST have a value that is a valid URL (<<rfc3986, [RFC3986]>>). This property, along with other properties of the associated +link+ object, can be used to formulate and execute a state transition. If the value of +href+ is empty or not understood by the recpient, it SHOULD be ignored.
+
++*id*+:: 
+This property specifies its object's unique identifier. The value MUST be unique amongst all the +id+ values in the document and must contain at least one character. The value MUST NOT contain any space characters.
+
++*method*+::
+This property specifies the HTTP method the client SHOULD use when sending a request using the +href+ (and possibly the +properties+) associated with the same +form+ object. Any valid HTTP method (see <<iana-methods, IANA-METHODS>>) is allowed. If the value is empty or is not understood by the client, the value MUST be treated if it is set to +"GET"+.
+
++*name*+::
+The +name+ property holds the general, non-unique name of the associated object. The value of +name+ MUST be a valid JSON string. 
++
+When the +name+ property appears in a +properties+ collection associated with a +link+ object, the value of the +name+ field is used as the parameter identifier when composing a query or body string to send with the request. If the value of the +name+ property is invalid, un-parseable, or missing, that +property+ SHOULD be ignored when composing a request query or body string.
++
+When the +name+ property appears in a +form+ or +metadata+ object, the value of the +name+ field represents a non-unique identifier for the associated object. 
+
++*pattern*+::
+The value of the +pattern+ property is a regular expression string to be applied to the +value+ property of th associated object. Rules for valid +pattern+ values are the same as the HTML5 pattern attribute <<html5-pattern,[HTML5-PATTERN]>>. This is an OPTIONAL element. If this attribute missing, is set to empty, or is unparseable , it SHOULD be ignored.
+
++*properties*+:: 
+This is an array of one or more anonymous +property+ objects. Each +property+ object describes a parameter for the state transition associated +form+ element. This is an OPTIONAL collection. If the array is missing or empty, the +properties+ collection MUST be treated as an empty set of parameters -- meaning that the transition is meant to be executed without passing any parameters.
+
++*readonly*+:: 
+This is a boolean property which indicates whether the +value+ property of the associated +property+ object is editable. Valid values are +"true"+ and +"false"+. If this property is missing from the object, is set to any other value than +"true"+ or +"false"+, or if the value of the +readonly+ property is not understood by the recipient, the assumed value of +readonly+ is +"false"+.
+
++*required*+:: 
+This is a boolean property which indicates whether the +value+ property of the associated +property+ object must be set to a non-empty value. Valid values are +"true"+ and +"false"+. If this property is missing from the object, is set to any other value than +"true"+ or +"false"+, or if the value of the +required+ property is not understood by the recipient, the assumed value of +required+ is +"false"+.
+
++*rel*+::
+The value of the +rel+ property is a set of space-separated tokens that represent metadata about the associated +link+ object. There are several sources of valid +rel+ values (see <<iana-linkrels, [IANA-LINKRELS]>>) and rules for creating your own valid +rel+ values (see <<rfc8288, [RFC8288]>>). If the value of +rel+ is empty, un-parseable, or not understood it SHOULD be ignored.
+
++*schema*+:: 
+The value of the +schema+ property represents a pointer to a schema document that can be used to describe (and possibly validate) the message. The +schema+ property is associated with an +item+ object. The contents of the +schema+ property is a valid URL that, when dereferenced, returns a schema document. By default, the type of schema document returned SHOULD be in JSON-Schema format (<<json-schema, [JSON-SCHEMA]>>) but other formats MAY be returned instead. This is an OPTIONAL field. If the value of +schema+ is empty or un-parseable, it SHOULD be ignored.
+
++*tags*+::
+This property, when it appears, contains a value that is a set of space-separated tokens representing the various classifications to which the associated object belongs. There are no additional restrictions on the tokens that MAY appear in the +tags+ property. Representation designers are encouraged to use values that describe the nature of the content (noun) rather than the intended actions associated with the content (verb). If the value of +tags+ property is empty or un-parsable, it SHOULD be ignored. If  any of the tokens within the +tags+ value are not understood, those tokens SHOULD be ignored.
+
++*title*+::
+This property represents advisory information for the +property+ object, such as would be appropriate for a tooltip or some other display. The value of +title+ is plain text.
+
++*type*+:: 
+The +type+ property indicates a general type name associated with the +property+ or +item+ object. It MUST be a valid JSON string and MUST NOT contain any space characters. This is an OPTIONAL property.
++
+When it appears within a +property+ object, the value of +type+ can be used to indicate _data_ types (string, boolean, integer, date-time, email, etc.). When it appears in an +item+ object, the value of +type+ can be used to indicate _object_ types (customer, product, location, etc.).
++
+If the value of +type+ is empty or un-parseable, it SHOULD be ignored.
+
++*value*+::
+The contents of the +value+ property represent the value of the associated +metadata+ or +property+ object. This MUST be a valid JSON string. It MAY be an empty string. There are no other restrictions on the contents of this property.
+
+
+== Extending the MASH-JSON Format
+Authors can extend the *MASH-JSON* media type as long as the following rules are observed:
+
+ . No existing properties or objects are removed.
+ . No existing properties or objects or the list of valid values are altered in a way that is non-backward compatible (e.g. changes MUST NOT break existing implementations that adhere to this specification).
+ . All new properties or objects are treated as OPTIONAL (e.g. no new REQUIRED elements are introduced in an extension).
+ 
+[WARNING]
+==== 
+Authors should be aware that a future version of this specification MAY add new elements and should take care that any extensions are implemented in a way that reduces the likelihood that a future version of this specification is in conflict with your extension.
+====
+
+== References
+ . [[rwmbook]] [RWMBook] Mike Amundsen, "RESTful Web Microservices", 2022, http://b.mamund.rwmbook
+ . [[alps]] [ALPS] "Application-Level Profile Semantics", 2015-2021, http://alps.io/spec
+ . [[kay2003]] [KAY2003] Dr. Alan Kay, "Clarification of "object-oriented", July 2003 (email), http://www.purl.org/stefan_ram/pub/doc_kay_oop_en 
+ . [[repo]] [REPO] Github, "PRAG-JSON", https://github.com/mamund/prag-json
+ . [[rfc2119]] [RFC2119] S. Bradner, "Key words for use in RFCs to Indicate Requirement Levels", March 1997, http://tools.ietf.org/html/rfc2119
+ . [[rfc3986]] [RFC3986] Berners-Lee, Fielding, Masinter,"Uniform Resource Identifier (URI): Generic Syntax", 2005,  https://tools.ietf.org/html/rfc3986
+ . [[rfc7159]] [RFC7159] Tim Bray, "The JavaScript Object Notation (JSON) Data Interchange Format", March 2014, https://tools.ietf.org/html/rfc7159
+ . [[rfc8288]] [RFC8288] Mark Nottingham, "Web Linking", Object 2017, https://tools.ietf.org/html/rfc8288 
+ . [[html5]] [HTML5] HTML Living Standard, https://html.spec.whatwg.org/multipage/
+ . [[html5-a]] [HTML5-A] Ian Hickson, Ed., "HTML5: Edition for Web Authors", 2011, https://www.w3.org/TR/2011/WD-html5-author-20110705/spec.html#the-a-element
+ . [[html5-form]] [HTML5-FORM] Ian Hickson, Ed., "HTML5: Edition for Web Authors", 2011, https://www.w3.org/TR/2011/WD-html5-author-20110705/spec.html#the-form-element
+ . [[html5-input]] [HTML5-INPUT] Ian Hickson, Ed., "HTML5: Edition for Web Authors", 2011, https://www.w3.org/TR/2011/WD-html5-author-20110705/spec.html#the-input-element
+ . [[html5-link]] [HTML5-LINK] Ian HIckson, Ed., "HTML5: Edition for Web Authors", 2011, https://www.w3.org/TR/2011/WD-html5-author-20110705/spec.html#the-link-element
+ . [[html5-pattern]] [HTML5-PATTERN] Ian Hickson, Ed. et al, HTML5: Edition for Web Authors", 2011, https://www.w3.org/TR/2011/WD-html5-author-20110705/spec.html#the-pattern-attribute 
+ . [[html5-tag]] [HTML5-TAG] Ian Hickson, Ed., "HTML5: Edition for Web Authors", 2011, https://www.w3.org/TR/2011/WD-html5-author-20110809/the-meta-element.html
+ . [[iana-methods]] [IANA-METHODS] "Hypertext Transfer Protocol (HTTP) Method Registry", April 2017, https://www.iana.org/assignments/http-methods/http-methods.xhtml
+ . [[iana-mediatypes]] [IANA-MEDIATYPES] "Media Types", December 2019, https://www.iana.org/assignments/media-types/media-types.xhtml
+ . [[iana-linkrels]] [IANA-LINKRELS] "Link Relations", November 2019, https://www.iana.org/assignments/link-relations/link-relations.xhtml
+ . [[json-schema]] [JSON-SCHEMA] "JSON Schema Specification", September 2019, https://json-schema.org/specification.html
+ . [[form-encoded]] [FORM-ENCODED] https://www.iana.org/assignments/media-types/application/x-www-form-urlencoded
+  
+== Acknowledgements
+I thank the everyone who helped contribute to this specification. 

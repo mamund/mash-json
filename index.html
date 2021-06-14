@@ -1,0 +1,1279 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+    "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<meta name="generator" content="AsciiDoc 9.0.0rc1" />
+<title>The MASH-JSON Media Type (Machine Acessible Semantic Hypermedia)</title>
+<style type="text/css">
+/* Shared CSS for AsciiDoc xhtml11 and html5 backends */
+
+/* Default font. */
+body {
+  font-family: Georgia,serif;
+}
+
+/* Title font. */
+h1, h2, h3, h4, h5, h6,
+div.title, caption.title,
+thead, p.table.header,
+#toctitle,
+#author, #revnumber, #revdate, #revremark,
+#footer {
+  font-family: Arial,Helvetica,sans-serif;
+}
+
+body {
+  margin: 1em 5% 1em 5%;
+}
+
+a {
+  color: blue;
+  text-decoration: underline;
+}
+a:visited {
+  color: fuchsia;
+}
+
+em {
+  font-style: italic;
+  color: navy;
+}
+
+strong {
+  font-weight: bold;
+  color: #083194;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #527bbd;
+  margin-top: 1.2em;
+  margin-bottom: 0.5em;
+  line-height: 1.3;
+}
+
+h1, h2, h3 {
+  border-bottom: 2px solid silver;
+}
+h2 {
+  padding-top: 0.5em;
+}
+h3 {
+  float: left;
+}
+h3 + * {
+  clear: left;
+}
+h5 {
+  font-size: 1.0em;
+}
+
+div.sectionbody {
+  margin-left: 0;
+}
+
+hr {
+  border: 1px solid silver;
+}
+
+p {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+ul, ol, li > p {
+  margin-top: 0;
+}
+ul > li     { color: #aaa; }
+ul > li > * { color: black; }
+
+.monospaced, code, pre {
+  font-family: "Courier New", Courier, monospace;
+  font-size: inherit;
+  color: navy;
+  padding: 0;
+  margin: 0;
+}
+pre {
+  white-space: pre-wrap;
+}
+
+#author {
+  color: #527bbd;
+  font-weight: bold;
+  font-size: 1.1em;
+}
+#email {
+}
+#revnumber, #revdate, #revremark {
+}
+
+#footer {
+  font-size: small;
+  border-top: 2px solid silver;
+  padding-top: 0.5em;
+  margin-top: 4.0em;
+}
+#footer-text {
+  float: left;
+  padding-bottom: 0.5em;
+}
+#footer-badges {
+  float: right;
+  padding-bottom: 0.5em;
+}
+
+#preamble {
+  margin-top: 1.5em;
+  margin-bottom: 1.5em;
+}
+div.imageblock, div.exampleblock, div.verseblock,
+div.quoteblock, div.literalblock, div.listingblock, div.sidebarblock,
+div.admonitionblock {
+  margin-top: 1.0em;
+  margin-bottom: 1.5em;
+}
+div.admonitionblock {
+  margin-top: 2.0em;
+  margin-bottom: 2.0em;
+  margin-right: 10%;
+  color: #606060;
+}
+
+div.content { /* Block element content. */
+  padding: 0;
+}
+
+/* Block element titles. */
+div.title, caption.title {
+  color: #527bbd;
+  font-weight: bold;
+  text-align: left;
+  margin-top: 1.0em;
+  margin-bottom: 0.5em;
+}
+div.title + * {
+  margin-top: 0;
+}
+
+td div.title:first-child {
+  margin-top: 0.0em;
+}
+div.content div.title:first-child {
+  margin-top: 0.0em;
+}
+div.content + div.title {
+  margin-top: 0.0em;
+}
+
+div.sidebarblock > div.content {
+  background: #ffffee;
+  border: 1px solid #dddddd;
+  border-left: 4px solid #f0f0f0;
+  padding: 0.5em;
+}
+
+div.listingblock > div.content {
+  border: 1px solid #dddddd;
+  border-left: 5px solid #f0f0f0;
+  background: #f8f8f8;
+  padding: 0.5em;
+}
+
+div.quoteblock, div.verseblock {
+  padding-left: 1.0em;
+  margin-left: 1.0em;
+  margin-right: 10%;
+  border-left: 5px solid #f0f0f0;
+  color: #888;
+}
+
+div.quoteblock > div.attribution {
+  padding-top: 0.5em;
+  text-align: right;
+}
+
+div.verseblock > pre.content {
+  font-family: inherit;
+  font-size: inherit;
+}
+div.verseblock > div.attribution {
+  padding-top: 0.75em;
+  text-align: left;
+}
+/* DEPRECATED: Pre version 8.2.7 verse style literal block. */
+div.verseblock + div.attribution {
+  text-align: left;
+}
+
+div.admonitionblock .icon {
+  vertical-align: top;
+  font-size: 1.1em;
+  font-weight: bold;
+  text-decoration: underline;
+  color: #527bbd;
+  padding-right: 0.5em;
+}
+div.admonitionblock td.content {
+  padding-left: 0.5em;
+  border-left: 3px solid #dddddd;
+}
+
+div.exampleblock > div.content {
+  border-left: 3px solid #dddddd;
+  padding-left: 0.5em;
+}
+
+div.imageblock div.content { padding-left: 0; }
+span.image img { border-style: none; vertical-align: text-bottom; }
+a.image:visited { color: white; }
+
+dl {
+  margin-top: 0.8em;
+  margin-bottom: 0.8em;
+}
+dt {
+  margin-top: 0.5em;
+  margin-bottom: 0;
+  font-style: normal;
+  color: navy;
+}
+dd > *:first-child {
+  margin-top: 0.1em;
+}
+
+ul, ol {
+    list-style-position: outside;
+}
+ol.arabic {
+  list-style-type: decimal;
+}
+ol.loweralpha {
+  list-style-type: lower-alpha;
+}
+ol.upperalpha {
+  list-style-type: upper-alpha;
+}
+ol.lowerroman {
+  list-style-type: lower-roman;
+}
+ol.upperroman {
+  list-style-type: upper-roman;
+}
+
+div.compact ul, div.compact ol,
+div.compact p, div.compact p,
+div.compact div, div.compact div {
+  margin-top: 0.1em;
+  margin-bottom: 0.1em;
+}
+
+tfoot {
+  font-weight: bold;
+}
+td > div.verse {
+  white-space: pre;
+}
+
+div.hdlist {
+  margin-top: 0.8em;
+  margin-bottom: 0.8em;
+}
+div.hdlist tr {
+  padding-bottom: 15px;
+}
+dt.hdlist1.strong, td.hdlist1.strong {
+  font-weight: bold;
+}
+td.hdlist1 {
+  vertical-align: top;
+  font-style: normal;
+  padding-right: 0.8em;
+  color: navy;
+}
+td.hdlist2 {
+  vertical-align: top;
+}
+div.hdlist.compact tr {
+  margin: 0;
+  padding-bottom: 0;
+}
+
+.comment {
+  background: yellow;
+}
+
+.footnote, .footnoteref {
+  font-size: 0.8em;
+}
+
+span.footnote, span.footnoteref {
+  vertical-align: super;
+}
+
+#footnotes {
+  margin: 20px 0 20px 0;
+  padding: 7px 0 0 0;
+}
+
+#footnotes div.footnote {
+  margin: 0 0 5px 0;
+}
+
+#footnotes hr {
+  border: none;
+  border-top: 1px solid silver;
+  height: 1px;
+  text-align: left;
+  margin-left: 0;
+  width: 20%;
+  min-width: 100px;
+}
+
+div.colist td {
+  padding-right: 0.5em;
+  padding-bottom: 0.3em;
+  vertical-align: top;
+}
+div.colist td img {
+  margin-top: 0.3em;
+}
+
+@media print {
+  #footer-badges { display: none; }
+}
+
+#toc {
+  margin-bottom: 2.5em;
+}
+
+#toctitle {
+  color: #527bbd;
+  font-size: 1.1em;
+  font-weight: bold;
+  margin-top: 1.0em;
+  margin-bottom: 0.1em;
+}
+
+div.toclevel0, div.toclevel1, div.toclevel2, div.toclevel3, div.toclevel4 {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+div.toclevel2 {
+  margin-left: 2em;
+  font-size: 0.9em;
+}
+div.toclevel3 {
+  margin-left: 4em;
+  font-size: 0.9em;
+}
+div.toclevel4 {
+  margin-left: 6em;
+  font-size: 0.9em;
+}
+
+span.aqua { color: aqua; }
+span.black { color: black; }
+span.blue { color: blue; }
+span.fuchsia { color: fuchsia; }
+span.gray { color: gray; }
+span.green { color: green; }
+span.lime { color: lime; }
+span.maroon { color: maroon; }
+span.navy { color: navy; }
+span.olive { color: olive; }
+span.purple { color: purple; }
+span.red { color: red; }
+span.silver { color: silver; }
+span.teal { color: teal; }
+span.white { color: white; }
+span.yellow { color: yellow; }
+
+span.aqua-background { background: aqua; }
+span.black-background { background: black; }
+span.blue-background { background: blue; }
+span.fuchsia-background { background: fuchsia; }
+span.gray-background { background: gray; }
+span.green-background { background: green; }
+span.lime-background { background: lime; }
+span.maroon-background { background: maroon; }
+span.navy-background { background: navy; }
+span.olive-background { background: olive; }
+span.purple-background { background: purple; }
+span.red-background { background: red; }
+span.silver-background { background: silver; }
+span.teal-background { background: teal; }
+span.white-background { background: white; }
+span.yellow-background { background: yellow; }
+
+span.big { font-size: 2em; }
+span.small { font-size: 0.6em; }
+
+span.underline { text-decoration: underline; }
+span.overline { text-decoration: overline; }
+span.line-through { text-decoration: line-through; }
+
+div.unbreakable { page-break-inside: avoid; }
+
+
+/*
+ * xhtml11 specific
+ *
+ * */
+
+div.tableblock {
+  margin-top: 1.0em;
+  margin-bottom: 1.5em;
+}
+div.tableblock > table {
+  border: 3px solid #527bbd;
+}
+thead, p.table.header {
+  font-weight: bold;
+  color: #527bbd;
+}
+p.table {
+  margin-top: 0;
+}
+/* Because the table frame attribute is overridden by CSS in most browsers. */
+div.tableblock > table[frame="void"] {
+  border-style: none;
+}
+div.tableblock > table[frame="hsides"] {
+  border-left-style: none;
+  border-right-style: none;
+}
+div.tableblock > table[frame="vsides"] {
+  border-top-style: none;
+  border-bottom-style: none;
+}
+
+
+/*
+ * html5 specific
+ *
+ * */
+
+table.tableblock {
+  margin-top: 1.0em;
+  margin-bottom: 1.5em;
+}
+thead, p.tableblock.header {
+  font-weight: bold;
+  color: #527bbd;
+}
+p.tableblock {
+  margin-top: 0;
+}
+table.tableblock {
+  border-width: 3px;
+  border-spacing: 0px;
+  border-style: solid;
+  border-color: #527bbd;
+  border-collapse: collapse;
+}
+th.tableblock, td.tableblock {
+  border-width: 1px;
+  padding: 4px;
+  border-style: solid;
+  border-color: #527bbd;
+}
+
+table.tableblock.frame-topbot {
+  border-left-style: hidden;
+  border-right-style: hidden;
+}
+table.tableblock.frame-sides {
+  border-top-style: hidden;
+  border-bottom-style: hidden;
+}
+table.tableblock.frame-none {
+  border-style: hidden;
+}
+
+th.tableblock.halign-left, td.tableblock.halign-left {
+  text-align: left;
+}
+th.tableblock.halign-center, td.tableblock.halign-center {
+  text-align: center;
+}
+th.tableblock.halign-right, td.tableblock.halign-right {
+  text-align: right;
+}
+
+th.tableblock.valign-top, td.tableblock.valign-top {
+  vertical-align: top;
+}
+th.tableblock.valign-middle, td.tableblock.valign-middle {
+  vertical-align: middle;
+}
+th.tableblock.valign-bottom, td.tableblock.valign-bottom {
+  vertical-align: bottom;
+}
+
+
+/*
+ * manpage specific
+ *
+ * */
+
+body.manpage h1 {
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+  border-top: 2px solid silver;
+  border-bottom: 2px solid silver;
+}
+body.manpage h2 {
+  border-style: none;
+}
+body.manpage div.sectionbody {
+  margin-left: 3em;
+}
+
+@media print {
+  body.manpage div#toc { display: none; }
+}
+
+
+</style>
+<script type="text/javascript">
+/*<![CDATA[*/
+var asciidoc = {  // Namespace.
+
+/////////////////////////////////////////////////////////////////////
+// Table Of Contents generator
+/////////////////////////////////////////////////////////////////////
+
+/* Author: Mihai Bazon, September 2002
+ * http://students.infoiasi.ro/~mishoo
+ *
+ * Table Of Content generator
+ * Version: 0.4
+ *
+ * Feel free to use this script under the terms of the GNU General Public
+ * License, as long as you do not remove or alter this notice.
+ */
+
+ /* modified by Troy D. Hanson, September 2006. License: GPL */
+ /* modified by Stuart Rackham, 2006, 2009. License: GPL */
+
+// toclevels = 1..4.
+toc: function (toclevels) {
+
+  function getText(el) {
+    var text = "";
+    for (var i = el.firstChild; i != null; i = i.nextSibling) {
+      if (i.nodeType == 3 /* Node.TEXT_NODE */) // IE doesn't speak constants.
+        text += i.data;
+      else if (i.firstChild != null)
+        text += getText(i);
+    }
+    return text;
+  }
+
+  function TocEntry(el, text, toclevel) {
+    this.element = el;
+    this.text = text;
+    this.toclevel = toclevel;
+  }
+
+  function tocEntries(el, toclevels) {
+    var result = new Array;
+    var re = new RegExp('[hH]([1-'+(toclevels+1)+'])');
+    // Function that scans the DOM tree for header elements (the DOM2
+    // nodeIterator API would be a better technique but not supported by all
+    // browsers).
+    var iterate = function (el) {
+      for (var i = el.firstChild; i != null; i = i.nextSibling) {
+        if (i.nodeType == 1 /* Node.ELEMENT_NODE */) {
+          var mo = re.exec(i.tagName);
+          if (mo && (i.getAttribute("class") || i.getAttribute("className")) != "float") {
+            result[result.length] = new TocEntry(i, getText(i), mo[1]-1);
+          }
+          iterate(i);
+        }
+      }
+    }
+    iterate(el);
+    return result;
+  }
+
+  var toc = document.getElementById("toc");
+  if (!toc) {
+    return;
+  }
+
+  // Delete existing TOC entries in case we're reloading the TOC.
+  var tocEntriesToRemove = [];
+  var i;
+  for (i = 0; i < toc.childNodes.length; i++) {
+    var entry = toc.childNodes[i];
+    if (entry.nodeName.toLowerCase() == 'div'
+     && entry.getAttribute("class")
+     && entry.getAttribute("class").match(/^toclevel/))
+      tocEntriesToRemove.push(entry);
+  }
+  for (i = 0; i < tocEntriesToRemove.length; i++) {
+    toc.removeChild(tocEntriesToRemove[i]);
+  }
+
+  // Rebuild TOC entries.
+  var entries = tocEntries(document.getElementById("content"), toclevels);
+  for (var i = 0; i < entries.length; ++i) {
+    var entry = entries[i];
+    if (entry.element.id == "")
+      entry.element.id = "_toc_" + i;
+    var a = document.createElement("a");
+    a.href = "#" + entry.element.id;
+    a.appendChild(document.createTextNode(entry.text));
+    var div = document.createElement("div");
+    div.appendChild(a);
+    div.className = "toclevel" + entry.toclevel;
+    toc.appendChild(div);
+  }
+  if (entries.length == 0)
+    toc.parentNode.removeChild(toc);
+},
+
+
+/////////////////////////////////////////////////////////////////////
+// Footnotes generator
+/////////////////////////////////////////////////////////////////////
+
+/* Based on footnote generation code from:
+ * http://www.brandspankingnew.net/archive/2005/07/format_footnote.html
+ */
+
+footnotes: function () {
+  // Delete existing footnote entries in case we're reloading the footnodes.
+  var i;
+  var noteholder = document.getElementById("footnotes");
+  if (!noteholder) {
+    return;
+  }
+  var entriesToRemove = [];
+  for (i = 0; i < noteholder.childNodes.length; i++) {
+    var entry = noteholder.childNodes[i];
+    if (entry.nodeName.toLowerCase() == 'div' && entry.getAttribute("class") == "footnote")
+      entriesToRemove.push(entry);
+  }
+  for (i = 0; i < entriesToRemove.length; i++) {
+    noteholder.removeChild(entriesToRemove[i]);
+  }
+
+  // Rebuild footnote entries.
+  var cont = document.getElementById("content");
+  var spans = cont.getElementsByTagName("span");
+  var refs = {};
+  var n = 0;
+  for (i=0; i<spans.length; i++) {
+    if (spans[i].className == "footnote") {
+      n++;
+      var note = spans[i].getAttribute("data-note");
+      if (!note) {
+        // Use [\s\S] in place of . so multi-line matches work.
+        // Because JavaScript has no s (dotall) regex flag.
+        note = spans[i].innerHTML.match(/\s*\[([\s\S]*)]\s*/)[1];
+        spans[i].innerHTML =
+          "[<a id='_footnoteref_" + n + "' href='#_footnote_" + n +
+          "' title='View footnote' class='footnote'>" + n + "</a>]";
+        spans[i].setAttribute("data-note", note);
+      }
+      noteholder.innerHTML +=
+        "<div class='footnote' id='_footnote_" + n + "'>" +
+        "<a href='#_footnoteref_" + n + "' title='Return to text'>" +
+        n + "</a>. " + note + "</div>";
+      var id =spans[i].getAttribute("id");
+      if (id != null) refs["#"+id] = n;
+    }
+  }
+  if (n == 0)
+    noteholder.parentNode.removeChild(noteholder);
+  else {
+    // Process footnoterefs.
+    for (i=0; i<spans.length; i++) {
+      if (spans[i].className == "footnoteref") {
+        var href = spans[i].getElementsByTagName("a")[0].getAttribute("href");
+        href = href.match(/#.*/)[0];  // Because IE return full URL.
+        n = refs[href];
+        spans[i].innerHTML =
+          "[<a href='#_footnote_" + n +
+          "' title='View footnote' class='footnote'>" + n + "</a>]";
+      }
+    }
+  }
+},
+
+install: function(toclevels) {
+  var timerId;
+
+  function reinstall() {
+    asciidoc.footnotes();
+    if (toclevels) {
+      asciidoc.toc(toclevels);
+    }
+  }
+
+  function reinstallAndRemoveTimer() {
+    clearInterval(timerId);
+    reinstall();
+  }
+
+  timerId = setInterval(reinstall, 500);
+  if (document.addEventListener)
+    document.addEventListener("DOMContentLoaded", reinstallAndRemoveTimer, false);
+  else
+    window.onload = reinstallAndRemoveTimer;
+}
+
+}
+asciidoc.install(2);
+/*]]>*/
+</script>
+</head>
+<body class="article">
+<div id="header">
+<h1>The MASH-JSON Media Type (Machine Acessible Semantic Hypermedia)</h1>
+<span id="author">Mike Amundsen</span><br />
+<span id="email"><code>&lt;<a href="mailto:mca@amundsen.com">mca@amundsen.com</a>&gt;</code></span><br />
+<div id="toc">
+  <div id="toctitle">Table of Contents</div>
+  <noscript><p><b>JavaScript must be enabled in your browser to display the table of contents.</b></p></noscript>
+</div>
+</div>
+<div id="content">
+<div class="sect1">
+<h2 id="_status">Status</h2>
+<div class="sectionbody">
+<div class="dlist"><dl>
+<dt class="hdlist1">
+Doc Status
+</dt>
+<dd>
+<p>
+  <strong><span class="white red-background">Working Draft</span></strong>&#8201;&#8212;&#8201;<em>Only experimental and &#8216;proof-of-concept&#8217; apps should be built on this unstable draft.</em>
+</p>
+</dd>
+<dt class="hdlist1">
+Proposed IANA Registrations
+</dt>
+<dd>
+<p>
+  <code>application/vnd.mash+json</code>
+</p>
+</dd>
+<dt class="hdlist1">
+Repository
+</dt>
+<dd>
+<p>
+  <a href="https://github.com/mamund/mash-json">https://github.com/mamund/mash-json</a>
+</p>
+</dd>
+<dt class="hdlist1">
+Sample Implementation
+</dt>
+<dd>
+<p>
+  NA
+</p>
+</dd>
+<dt class="hdlist1">
+Last Updated
+</dt>
+<dd>
+<p>
+  2021-06-13
+</p>
+</dd>
+</dl></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_summary">Summary</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>This document describes a simple media type designed to make it easy to for machines to interact via a stable hypermedia ormat. It was created as part of the "RESTful Web Microservices" book (<a href="#rwmbook">[RWMBook]</a> project for O&#8217;Reilly Media.</p></div>
+<div class="sect2">
+<h3 id="_motivation">Motivation</h3>
+<div class="paragraph"><p><strong>MASH-JSON</strong> is designed to make it easy for "headless" machines to interact with each other on the web using common patterns from the web. The format makes both data and actions explicit within the response representation and has design elements (<code>id</code>, <code>name</code>, &amp; <code>rel</code>) that can hold unique identify information that does NOT rely on the resource&#8217;s location (<code>URL</code>) or it&#8217;s semantic contents (<code>givenName</code>, <code>familyName</code>, etc.).</p></div>
+<div class="paragraph"><p><strong>MASH-JSON</strong> taps into the power of the web by making it easy to link resources, easy to discover and follow those links, and easy to predict what will be at the "other end" of the link before it is followed. <strong>MASH-JSON</strong> was designed with HTML (<a href="#html5">[HTML5]</a>) in mind but should be helpful in other network-level protocols that follow a similar pattern (identifier, headers, &amp; body).</p></div>
+<div class="paragraph"><p><strong>MASH-JSON</strong> supports a high degree of loose coupling by limiting protocol knowlege to supporting links for forms and limiting domain data knowledge to supporting an application profile identifier (e.g. via Application-Level Profile Semantics (<a href="#alps">[ALPS]</a>).</p></div>
+<div class="paragraph"><p><strong>MASH-JSON</strong> was designed to compliment the book RESTful Web Microservices (<a href="#rwmbook">[RWMBook]</a>). This book is a collection of recipes and principles to help readers through the process of creating microservice-style implementations that rely on hypermedia to connect and share information at runtime.</p></div>
+</div>
+<div class="sect2">
+<h3 id="_updates">Updates</h3>
+<div class="paragraph"><p>There is an open source repository <a href="#repo">[REPO]</a> for this specification. Readers are encouraged to submit updates via the repository any time.</p></div>
+</div>
+<div class="sect2">
+<h3 id="_compliance">Compliance</h3>
+<div class="paragraph"><p>An implementation (client or server) of this specification is not compliant if it fails to satisfy one or more of the MUST or REQUIRED elements. An implementation that satisfies all the MUST and REQUIRED elements as well as all the SHOULD and RECOMMENDED elements is said to be "unconditionally compliant"; one that satisfies all the MUST and REQUIRED elements but not all the SHOULD and RECOMMENDED elements is said to be "conditionally compliant."</p></div>
+<div class="sidebarblock">
+<div class="content">
+<div class="title">RFC2119 Words</div>
+<div class="paragraph"><p>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD",
+"SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be
+interpreted as described in <a href="#rfc2119">[RFC2119]</a>.</p></div>
+</div></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_the_mash_json_media_type">The MASH-JSON Media Type</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>The <strong>MASH-JSON</strong> media type is a simple JSON <a href="#rfc7159">[RFC7159]</a> document that contains runtime status information about network resources on the Web. <strong>MASH-JSON</strong> has three root elements;</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>metadata</code> : Contains an array of message metadata
+</p>
+</li>
+<li>
+<p>
+<code>forms</code> : Contains an array of simple web links and rich forms for navigating the application space and modifying it&#8217;s state
+</p>
+</li>
+<li>
+<p>
+<code>items</code> : Contains an array of data items. The <code>items</code> collection represents the data associated with the network resource.
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>This media type can be used to provide dynamic representations of application state at runtime.</p></div>
+<div class="sect2">
+<h3 id="_example_mash_json_document">Example MASH-JSON document</h3>
+<div class="paragraph"><p>Below is a sample <strong>MASH-JSON</strong> document example:</p></div>
+<div class="listingblock">
+<div class="title">Sample <strong>PRAG-JSON</strong> document.</div>
+<div class="content">
+<pre><code>{
+  "metadata" : [
+    {"name" : "title", "value" : "BigCo Onboarding"},
+    {"name" : "author", "value" : "Mike Amundsen"},
+    {"name" : "updated", "value" : "2020-03-01"}
+  ],
+  "forms" : [
+    {
+      "id" : "q1w2e",
+      "rel" : "home",
+      "name" : "home",
+      "href" : "http://api.example.org/",
+      "title" : "Home Page",
+      "method" : "GET",
+      "properties" : [
+        {"name" : "filter", "value" : ""}
+      ]
+    }
+  ],
+  "items" : [
+    {
+      "id" : "za1xs2cd3",
+      "type": "wip",
+      "forms" : [
+        {
+          "id" : "q1w2e3r4"
+          "name" : "item",
+          "href" : "http://api.example.org/q1w2e3r4",
+          "title" : "Read Item",
+          "method" : "GET",
+          "properties": []
+        }
+      ],
+      "schema" : "api.example.org/schema/wip.json",
+      "data" : {
+        "wipIdentifier" : "q1w2e3r4",
+        "customerIdentifier" : "w2e3r4t5",
+        "accountIdentifier" : "e3r4t5y6",
+        "activityIdentifier" : "r4t5y6u7",
+        "givenName" : "Idara",
+        "familyName" : "Adams",
+        "email" : "idara.adams@example.org",
+        "telephone" : "123.456.7890",
+        "status" : "pending",
+        "maxValue" : "5000",
+        "discount" : "10"
+      }
+    }
+  ]
+}</code></pre>
+</div></div>
+</div>
+<div class="sect2">
+<h3 id="_iana_media_type_registration_for_mash_json">IANA Media Type Registration for MASH-JSON</h3>
+<div class="paragraph"><p>The media type identifier string for <strong>MASH-JSON</strong> documents is: <code>application/vnd.mash+json</code>  This SHOULD be used as part of the HTTP <code>accept</code> header when making a request for a <strong>MASH-JSON</strong> document. It SHOULD appear as the HTTP <code>content-type</code> header when sending a response that contains a <strong>MASH-JSON</strong> document.</p></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_elements_of_a_mash_json_document">Elements of a MASH-JSON Document</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>All <strong>MASH-JSON</strong> documents MUST be valid JSON documents. A well-formed <strong>MASH-JSON</strong> document has three top-level objects: <code>metadata</code>, <code>forms</code> and <code>items</code>. The following is a summary of the structure of the <strong>MASH-JSON</strong> media type.</p></div>
+<div class="sect2">
+<h3 id="_the_code_metadata_code_element">The <code>metadata</code> Element</h3>
+<div class="paragraph"><p>The <code>metadata</code> element is meant to hold message-level information <em>about</em> the payload of the response. This might be individual data properties that describe the payload, references to other related content, etc. Anything that might be needed in order to improve the understanding of the payload itself. The role played by the <code>metadata</code> element in <strong>MASH-JSON</strong> is similar to the role played by the <code>meta</code> tag in HTML5 (<a href="#html5-tag">[HTML5-TAG]</a>).</p></div>
+<div class="paragraph"><p>The <code>metadata</code> element is an array of anonymous JSON objects. The default properties of <code>metadata</code> objects that SHOULD appear are <code>name</code> and <code>value</code>. Possible additional properties that MAY be part of a <code>metadata</code> object include: <code>id</code>, <code>type</code>, <code>title</code>, <code>tags</code>, <code>href</code> and others. Other properties not defined by this specification MAY appear as well.</p></div>
+<div class="listingblock">
+<div class="title">Sample <code>metadata</code> object</div>
+<div class="content">
+<pre><code>{
+  "name" : "".
+  "value" : "",
+  "id" : "",
+  "type" : "",
+  "title" : "",
+  "tags" : "",
+  "href" : ""
+}</code></pre>
+</div></div>
+<div class="paragraph"><p>The <code>metadata</code> element SHOULD NOT contain any <code>forms</code> or <code>items</code> elements as they are meant to appear in their own collection.</p></div>
+</div>
+<div class="sect2">
+<h3 id="_the_code_forms_code_element">The <code>forms</code> Element</h3>
+<div class="paragraph"><p>The <code>forms</code> element contains any links and/or forms associated with the <strong>MASH-JSON</strong> document.  The <code>forms</code> collection is an array of anonymous JSON <code>form</code> objects. These <code>form</code> objects are designed to carry complete details on Web navigation between resources including any protocol methods, arguments, and so forth. Any time the message needs to render a navigation or state change, this should appear as a <code>form</code> object. The <code>forms</code> object plays a role in <strong>MASH-JSON</strong> similar to HTML5&#8217;s <code>link</code> (<a href="#html5-link">HTML5-LINK</a>), <code>a</code> (<a href="#html5-a">HTML5-A</a>), and <code>form</code> (<a href="#html5-form">HTML5-FORM</a>) tags.</p></div>
+<div class="paragraph"><p>The default properties of a <code>form</code> object that SHOULD appear are: <code>id", +name</code>, <code>href</code>, <code>method</code>, and <code>properties</code>. Additional properties that MAY appear are: <code>id</code>, <code>title</code>, <code>rel</code>, <code>tags</code>, <code>type</code>, and <code>enctype</code>. Other properties not defined by this specification MAY appear as well.</p></div>
+<div class="listingblock">
+<div class="title">Sample <code>form</code> object</div>
+<div class="content">
+<pre><code>{
+  "id" : "".
+  "name" : "",
+  "href" : "",
+  "title" : "",
+  "type" : "".
+  "rel" : "",
+  "tags" : "",
+  "enctype" : "",
+  "method" : "",
+  "properties" : [
+    {"name" : "", "value" : ""}
+  ]
+}</code></pre>
+</div></div>
+</div>
+<div class="sect2">
+<h3 id="_the_code_properties_code_array">The <code>properties</code> Array</h3>
+<div class="paragraph"><p>The <code>properties</code> array within a <code>form</code> object contains one or more anonymous <code>property</code> objects. A <code>property</code> object SHOULD have <code>name</code> and <code>value</code> properties. It MAY have additional properties including <code>id</code>, <code>title</code>, <code>required</code>, <code>readonly</code>, <code>pattern</code>, <code>type</code>, and <code>tags</code>. Other properties not defined by this specification MAY appear as well. The role the <code>property</code> object plays in <strong>MASH-JSON</strong> is similar HTML5&#8217;s <code>input</code> (<a href="#html5-input">HTML5-INPUT</a>) element.</p></div>
+<div class="listingblock">
+<div class="title">Sample <code>property</code> object</div>
+<div class="content">
+<pre><code>{
+  "id", : "",
+  "name" : "",
+  "value" : "",
+  "title" : "",
+  "required" : "[true|false]",
+  "readonly" : "[true|false]",
+  "pattern" : "",
+  "type" : "",
+  "tags" : ""
+}</code></pre>
+</div></div>
+<div class="paragraph"><p>The <code>forms</code> element SHOULD NOT contain any <code>metadata or +items</code> elements as they are meant to appear in their own collection.</p></div>
+</div>
+<div class="sect2">
+<h3 id="_the_code_items_code_element">The <code>items</code> Element</h3>
+<div class="paragraph"><p>The <code>item</code> element contains one or more data items that represent the state of the requested resource. The <code>items</code> collection is an array of anonymous JSON arbitrary objects. The <code>items</code> collection SHOULD contain a homogeneous JSON objects (e.g. all <code>customer</code> objects) but MAY contain a heterogeneous collection of objects.</p></div>
+<div class="paragraph"><p>Each <code>item</code> object SHOULD have <code>id</code>, <code>type</code>, and <code>schema</code> properties and MAY have any number of additional properties. The data for an <code>item</code> MAY be a set of properties at the "top" level or MAY be nested within a single named code (e.g. <code>graph</code> or <code>data</code>, etc. Each <code>item</code> object is essentially a graph arbitrary depth and complexity. The <code>schema</code> property of an <code>item</code> SHOULD provide enough information to allow message-handlers to properly parse the <code>item</code>.</p></div>
+<div class="listingblock">
+<div class="title">Sample <code>item</code> object</div>
+<div class="content">
+<pre><code>{
+  "id" : "",
+  "type" : "",
+  "schema" : "",
+  "links" : [...],
+  "data": {...}
+  ...
+}</code></pre>
+</div></div>
+<div class="paragraph"><p>The <code>schema</code> property SHOULD point to a JSON-Schema (<a href="#json-schema">JSON-SCHEMA</a>) document but MAY point to some other document.</p></div>
+<div class="paragraph"><p>An <code>item</code> object MAY also include a single <code>forms</code> collection. This <code>forms</code> collection within an <code>item</code> object follows the same rules as the top-level <code>forms</code> collection (see above).</p></div>
+</div>
+<div class="sect2">
+<h3 id="_mash_json_properties">MASH-JSON Properties</h3>
+<div class="paragraph"><p>Below is a list of valid <strong>MASH-JSON</strong> properties defined in this specification. These properties MAY appear in more than one place within a valid <strong>MASH-JSON</strong> message.</p></div>
+<div class="dlist"><dl>
+<dt class="hdlist1">
+<code><strong>enctype</strong></code>
+</dt>
+<dd>
+<p>
+This property represents the media type to use when encoding a mesage body to be sent during a state transition. The default value for this field is <code>application/x-www-form-urlencoded</code> (see <a href="#form-encoded">[FORM-ENCODED]</a>). However, other valid media type string (<a href="#iana-mediatypes">[IANA-MEDIATYPES]</a>) MAY appear in the <code>enctype</code> property. All compliant implementations of this specification MUST support the <code>application/x-www-form-urlencoded</code> format. They SHOULD also support the <code>application/json</code> (see <a href="#rfc7159">[RFC7159]</a>) format and MAY support other formats.
+</p>
+</dd>
+<dt class="hdlist1">
+<code><strong>href</strong></code>
+</dt>
+<dd>
+<p>
+The <code>href</code> property MUST have a value that is a valid URL (<a href="#rfc3986">[RFC3986]</a>). This property, along with other properties of the associated <code>link</code> object, can be used to formulate and execute a state transition. If the value of <code>href</code> is empty or not understood by the recpient, it SHOULD be ignored.
+</p>
+</dd>
+<dt class="hdlist1">
+<code><strong>id</strong></code>
+</dt>
+<dd>
+<p>
+This property specifies its object&#8217;s unique identifier. The value MUST be unique amongst all the <code>id</code> values in the document and must contain at least one character. The value MUST NOT contain any space characters.
+</p>
+</dd>
+<dt class="hdlist1">
+<code><strong>method</strong></code>
+</dt>
+<dd>
+<p>
+This property specifies the HTTP method the client SHOULD use when sending a request using the <code>href</code> (and possibly the <code>properties</code>) associated with the same <code>form</code> object. Any valid HTTP method (see <a href="#iana-methods">IANA-METHODS</a>) is allowed. If the value is empty or is not understood by the client, the value MUST be treated if it is set to <code>"GET"</code>.
+</p>
+</dd>
+<dt class="hdlist1">
+<code><strong>name</strong></code>
+</dt>
+<dd>
+<p>
+The <code>name</code> property holds the general, non-unique name of the associated object. The value of <code>name</code> MUST be a valid JSON string.
+</p>
+<div class="paragraph"><p>When the <code>name</code> property appears in a <code>properties</code> collection associated with a <code>link</code> object, the value of the <code>name</code> field is used as the parameter identifier when composing a query or body string to send with the request. If the value of the <code>name</code> property is invalid, un-parseable, or missing, that <code>property</code> SHOULD be ignored when composing a request query or body string.</p></div>
+<div class="paragraph"><p>When the <code>name</code> property appears in a <code>form</code> or <code>metadata</code> object, the value of the <code>name</code> field represents a non-unique identifier for the associated object.</p></div>
+</dd>
+<dt class="hdlist1">
+<code><strong>pattern</strong></code>
+</dt>
+<dd>
+<p>
+The value of the <code>pattern</code> property is a regular expression string to be applied to the <code>value</code> property of th associated object. Rules for valid <code>pattern</code> values are the same as the HTML5 pattern attribute <a href="#html5-pattern">[HTML5-PATTERN]</a>. This is an OPTIONAL element. If this attribute missing, is set to empty, or is unparseable , it SHOULD be ignored.
+</p>
+</dd>
+<dt class="hdlist1">
+<code><strong>properties</strong></code>
+</dt>
+<dd>
+<p>
+This is an array of one or more anonymous <code>property</code> objects. Each <code>property</code> object describes a parameter for the state transition associated <code>form</code> element. This is an OPTIONAL collection. If the array is missing or empty, the <code>properties</code> collection MUST be treated as an empty set of parameters&#8201;&#8212;&#8201;meaning that the transition is meant to be executed without passing any parameters.
+</p>
+</dd>
+<dt class="hdlist1">
+<code><strong>readonly</strong></code>
+</dt>
+<dd>
+<p>
+This is a boolean property which indicates whether the <code>value</code> property of the associated <code>property</code> object is editable. Valid values are <code>"true"</code> and <code>"false"</code>. If this property is missing from the object, is set to any other value than <code>"true"</code> or <code>"false"</code>, or if the value of the <code>readonly</code> property is not understood by the recipient, the assumed value of <code>readonly</code> is <code>"false"</code>.
+</p>
+</dd>
+<dt class="hdlist1">
+<code><strong>required</strong></code>
+</dt>
+<dd>
+<p>
+This is a boolean property which indicates whether the <code>value</code> property of the associated <code>property</code> object must be set to a non-empty value. Valid values are <code>"true"</code> and <code>"false"</code>. If this property is missing from the object, is set to any other value than <code>"true"</code> or <code>"false"</code>, or if the value of the <code>required</code> property is not understood by the recipient, the assumed value of <code>required</code> is <code>"false"</code>.
+</p>
+</dd>
+<dt class="hdlist1">
+<code><strong>rel</strong></code>
+</dt>
+<dd>
+<p>
+The value of the <code>rel</code> property is a set of space-separated tokens that represent metadata about the associated <code>link</code> object. There are several sources of valid <code>rel</code> values (see <a href="#iana-linkrels">[IANA-LINKRELS]</a>) and rules for creating your own valid <code>rel</code> values (see <a href="#rfc8288">[RFC8288]</a>). If the value of <code>rel</code> is empty, un-parseable, or not understood it SHOULD be ignored.
+</p>
+</dd>
+<dt class="hdlist1">
+<code><strong>schema</strong></code>
+</dt>
+<dd>
+<p>
+The value of the <code>schema</code> property represents a pointer to a schema document that can be used to describe (and possibly validate) the message. The <code>schema</code> property is associated with an <code>item</code> object. The contents of the <code>schema</code> property is a valid URL that, when dereferenced, returns a schema document. By default, the type of schema document returned SHOULD be in JSON-Schema format (<a href="#json-schema">[JSON-SCHEMA]</a>) but other formats MAY be returned instead. This is an OPTIONAL field. If the value of <code>schema</code> is empty or un-parseable, it SHOULD be ignored.
+</p>
+</dd>
+<dt class="hdlist1">
+<code><strong>tags</strong></code>
+</dt>
+<dd>
+<p>
+This property, when it appears, contains a value that is a set of space-separated tokens representing the various classifications to which the associated object belongs. There are no additional restrictions on the tokens that MAY appear in the <code>tags</code> property. Representation designers are encouraged to use values that describe the nature of the content (noun) rather than the intended actions associated with the content (verb). If the value of <code>tags</code> property is empty or un-parsable, it SHOULD be ignored. If  any of the tokens within the <code>tags</code> value are not understood, those tokens SHOULD be ignored.
+</p>
+</dd>
+<dt class="hdlist1">
+<code><strong>title</strong></code>
+</dt>
+<dd>
+<p>
+This property represents advisory information for the <code>property</code> object, such as would be appropriate for a tooltip or some other display. The value of <code>title</code> is plain text.
+</p>
+</dd>
+<dt class="hdlist1">
+<code><strong>type</strong></code>
+</dt>
+<dd>
+<p>
+The <code>type</code> property indicates a general type name associated with the <code>property</code> or <code>item</code> object. It MUST be a valid JSON string and MUST NOT contain any space characters. This is an OPTIONAL property.
+</p>
+<div class="paragraph"><p>When it appears within a <code>property</code> object, the value of <code>type</code> can be used to indicate <em>data</em> types (string, boolean, integer, date-time, email, etc.). When it appears in an <code>item</code> object, the value of <code>type</code> can be used to indicate <em>object</em> types (customer, product, location, etc.).</p></div>
+<div class="paragraph"><p>If the value of <code>type</code> is empty or un-parseable, it SHOULD be ignored.</p></div>
+</dd>
+<dt class="hdlist1">
+<code><strong>value</strong></code>
+</dt>
+<dd>
+<p>
+The contents of the <code>value</code> property represent the value of the associated <code>metadata</code> or <code>property</code> object. This MUST be a valid JSON string. It MAY be an empty string. There are no other restrictions on the contents of this property.
+</p>
+</dd>
+</dl></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_extending_the_mash_json_format">Extending the MASH-JSON Format</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>Authors can extend the <strong>MASH-JSON</strong> media type as long as the following rules are observed:</p></div>
+<div class="olist arabic"><ol class="arabic">
+<li>
+<p>
+No existing properties or objects are removed.
+</p>
+</li>
+<li>
+<p>
+No existing properties or objects or the list of valid values are altered in a way that is non-backward compatible (e.g. changes MUST NOT break existing implementations that adhere to this specification).
+</p>
+</li>
+<li>
+<p>
+All new properties or objects are treated as OPTIONAL (e.g. no new REQUIRED elements are introduced in an extension).
+</p>
+</li>
+</ol></div>
+<div class="admonitionblock">
+<table><tr>
+<td class="icon">
+<div class="title">Warning</div>
+</td>
+<td class="content">
+<div class="paragraph"><p>Authors should be aware that a future version of this specification MAY add new elements and should take care that any extensions are implemented in a way that reduces the likelihood that a future version of this specification is in conflict with your extension.</p></div>
+</td>
+</tr></table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_references">References</h2>
+<div class="sectionbody">
+<div class="olist arabic"><ol class="arabic">
+<li>
+<p>
+<a id="rwmbook"></a> [RWMBook] Mike Amundsen, "RESTful Web Microservices", 2022, <a href="http://b.mamund.rwmbook">http://b.mamund.rwmbook</a>
+</p>
+</li>
+<li>
+<p>
+<a id="alps"></a> [ALPS] "Application-Level Profile Semantics", 2015-2021, <a href="http://alps.io/spec">http://alps.io/spec</a>
+</p>
+</li>
+<li>
+<p>
+<a id="kay2003"></a> [KAY2003] Dr. Alan Kay, "Clarification of "object-oriented", July 2003 (email), <a href="http://www.purl.org/stefan_ram/pub/doc_kay_oop_en">http://www.purl.org/stefan_ram/pub/doc_kay_oop_en</a>
+</p>
+</li>
+<li>
+<p>
+<a id="repo"></a> [REPO] Github, "PRAG-JSON", <a href="https://github.com/mamund/prag-json">https://github.com/mamund/prag-json</a>
+</p>
+</li>
+<li>
+<p>
+<a id="rfc2119"></a> [RFC2119] S. Bradner, "Key words for use in RFCs to Indicate Requirement Levels", March 1997, <a href="http://tools.ietf.org/html/rfc2119">http://tools.ietf.org/html/rfc2119</a>
+</p>
+</li>
+<li>
+<p>
+<a id="rfc3986"></a> [RFC3986] Berners-Lee, Fielding, Masinter,"Uniform Resource Identifier (URI): Generic Syntax", 2005,  <a href="https://tools.ietf.org/html/rfc3986">https://tools.ietf.org/html/rfc3986</a>
+</p>
+</li>
+<li>
+<p>
+<a id="rfc7159"></a> [RFC7159] Tim Bray, "The JavaScript Object Notation (JSON) Data Interchange Format", March 2014, <a href="https://tools.ietf.org/html/rfc7159">https://tools.ietf.org/html/rfc7159</a>
+</p>
+</li>
+<li>
+<p>
+<a id="rfc8288"></a> [RFC8288] Mark Nottingham, "Web Linking", Object 2017, <a href="https://tools.ietf.org/html/rfc8288">https://tools.ietf.org/html/rfc8288</a>
+</p>
+</li>
+<li>
+<p>
+<a id="html5"></a> [HTML5] HTML Living Standard, <a href="https://html.spec.whatwg.org/multipage/">https://html.spec.whatwg.org/multipage/</a>
+</p>
+</li>
+<li>
+<p>
+<a id="html5-a"></a> [HTML5-A] Ian Hickson, Ed., "HTML5: Edition for Web Authors", 2011, <a href="https://www.w3.org/TR/2011/WD-html5-author-20110705/spec.html#the-a-element">https://www.w3.org/TR/2011/WD-html5-author-20110705/spec.html#the-a-element</a>
+</p>
+</li>
+<li>
+<p>
+<a id="html5-form"></a> [HTML5-FORM] Ian Hickson, Ed., "HTML5: Edition for Web Authors", 2011, <a href="https://www.w3.org/TR/2011/WD-html5-author-20110705/spec.html#the-form-element">https://www.w3.org/TR/2011/WD-html5-author-20110705/spec.html#the-form-element</a>
+</p>
+</li>
+<li>
+<p>
+<a id="html5-input"></a> [HTML5-INPUT] Ian Hickson, Ed., "HTML5: Edition for Web Authors", 2011, <a href="https://www.w3.org/TR/2011/WD-html5-author-20110705/spec.html#the-input-element">https://www.w3.org/TR/2011/WD-html5-author-20110705/spec.html#the-input-element</a>
+</p>
+</li>
+<li>
+<p>
+<a id="html5-link"></a> [HTML5-LINK] Ian HIckson, Ed., "HTML5: Edition for Web Authors", 2011, <a href="https://www.w3.org/TR/2011/WD-html5-author-20110705/spec.html#the-link-element">https://www.w3.org/TR/2011/WD-html5-author-20110705/spec.html#the-link-element</a>
+</p>
+</li>
+<li>
+<p>
+<a id="html5-pattern"></a> [HTML5-PATTERN] Ian Hickson, Ed. et al, HTML5: Edition for Web Authors", 2011, <a href="https://www.w3.org/TR/2011/WD-html5-author-20110705/spec.html#the-pattern-attribute">https://www.w3.org/TR/2011/WD-html5-author-20110705/spec.html#the-pattern-attribute</a>
+</p>
+</li>
+<li>
+<p>
+<a id="html5-tag"></a> [HTML5-TAG] Ian Hickson, Ed., "HTML5: Edition for Web Authors", 2011, <a href="https://www.w3.org/TR/2011/WD-html5-author-20110809/the-meta-element.html">https://www.w3.org/TR/2011/WD-html5-author-20110809/the-meta-element.html</a>
+</p>
+</li>
+<li>
+<p>
+<a id="iana-methods"></a> [IANA-METHODS] "Hypertext Transfer Protocol (HTTP) Method Registry", April 2017, <a href="https://www.iana.org/assignments/http-methods/http-methods.xhtml">https://www.iana.org/assignments/http-methods/http-methods.xhtml</a>
+</p>
+</li>
+<li>
+<p>
+<a id="iana-mediatypes"></a> [IANA-MEDIATYPES] "Media Types", December 2019, <a href="https://www.iana.org/assignments/media-types/media-types.xhtml">https://www.iana.org/assignments/media-types/media-types.xhtml</a>
+</p>
+</li>
+<li>
+<p>
+<a id="iana-linkrels"></a> [IANA-LINKRELS] "Link Relations", November 2019, <a href="https://www.iana.org/assignments/link-relations/link-relations.xhtml">https://www.iana.org/assignments/link-relations/link-relations.xhtml</a>
+</p>
+</li>
+<li>
+<p>
+<a id="json-schema"></a> [JSON-SCHEMA] "JSON Schema Specification", September 2019, <a href="https://json-schema.org/specification.html">https://json-schema.org/specification.html</a>
+</p>
+</li>
+<li>
+<p>
+<a id="form-encoded"></a> [FORM-ENCODED] <a href="https://www.iana.org/assignments/media-types/application/x-www-form-urlencoded">https://www.iana.org/assignments/media-types/application/x-www-form-urlencoded</a>
+</p>
+</li>
+</ol></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_acknowledgements">Acknowledgements</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>I thank the everyone who helped contribute to this specification.</p></div>
+</div>
+</div>
+</div>
+<div id="footnotes"><hr /></div>
+<div id="footer">
+<div id="footer-text">
+Last updated
+ 2021-06-13 20:01:17 EDT
+</div>
+</div>
+</body>
+</html>
