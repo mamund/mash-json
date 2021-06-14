@@ -271,7 +271,7 @@ Authors should be aware that a future version of this specification MAY add new 
  . [[rwmbook]] [RWMBook] Mike Amundsen, "RESTful Web Microservices", 2022, http://b.mamund.rwmbook
  . [[alps]] [ALPS] "Application-Level Profile Semantics", 2015-2021, http://alps.io/spec
  . [[kay2003]] [KAY2003] Dr. Alan Kay, "Clarification of "object-oriented", July 2003 (email), http://www.purl.org/stefan_ram/pub/doc_kay_oop_en 
- . [[repo]] [REPO] Github, "PRAG-JSON", https://github.com/mamund/prag-json
+ . [[repo]] [REPO] Github, "MASH-JSON", https://github.com/mamund/mash-json
  . [[rfc2119]] [RFC2119] S. Bradner, "Key words for use in RFCs to Indicate Requirement Levels", March 1997, http://tools.ietf.org/html/rfc2119
  . [[rfc3986]] [RFC3986] Berners-Lee, Fielding, Masinter,"Uniform Resource Identifier (URI): Generic Syntax", 2005,  https://tools.ietf.org/html/rfc3986
  . [[rfc7159]] [RFC7159] Tim Bray, "The JavaScript Object Notation (JSON) Data Interchange Format", March 2014, https://tools.ietf.org/html/rfc7159
