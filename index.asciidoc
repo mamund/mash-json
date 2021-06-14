@@ -54,7 +54,7 @@ This media type can be used to provide dynamic representations of application st
 === Example MASH-JSON document
 Below is a sample *MASH-JSON* document example:
 
-.Sample *PRAG-JSON* document.
+.Sample *MASH-JSON* document.
 ----
 {
   "metadata" : [ 
@@ -205,7 +205,7 @@ Below is a list of valid *MASH-JSON* properties defined in this specification. T
 This property represents the media type to use when encoding a mesage body to be sent during a state transition. The default value for this field is +application/x-www-form-urlencoded+ (see <<form-encoded, [FORM-ENCODED]>>). However, other valid media type string (<<iana-mediatypes, [IANA-MEDIATYPES]>>) MAY appear in the +enctype+ property. All compliant implementations of this specification MUST support the +application/x-www-form-urlencoded+ format. They SHOULD also support the +application/json+ (see <<rfc7159, [RFC7159]>>) format and MAY support other formats.
 
 +*href*+::
-The +href+ property MUST have a value that is a valid URL (<<rfc3986, [RFC3986]>>). This property, along with other properties of the associated +link+ object, can be used to formulate and execute a state transition. If the value of +href+ is empty or not understood by the recpient, it SHOULD be ignored.
+The +href+ property MUST have a value that is a valid URL (<<rfc3986, [RFC3986]>>). This property, along with other properties of the associated +form+ object, can be used to formulate and execute a state transition. If the value of +href+ is empty or not understood by the recpient, it SHOULD be ignored.
 
 +*id*+:: 
 This property specifies its object's unique identifier. The value MUST be unique amongst all the +id+ values in the document and must contain at least one character. The value MUST NOT contain any space characters.
@@ -216,7 +216,7 @@ This property specifies the HTTP method the client SHOULD use when sending a req
 +*name*+::
 The +name+ property holds the general, non-unique name of the associated object. The value of +name+ MUST be a valid JSON string. 
 +
-When the +name+ property appears in a +properties+ collection associated with a +link+ object, the value of the +name+ field is used as the parameter identifier when composing a query or body string to send with the request. If the value of the +name+ property is invalid, un-parseable, or missing, that +property+ SHOULD be ignored when composing a request query or body string.
+When the +name+ property appears in a +properties+ collection associated with a +form+ object, the value of the +name+ field is used as the parameter identifier when composing a query or body string to send with the request. If the value of the +name+ property is invalid, un-parseable, or missing, that +property+ SHOULD be ignored when composing a request query or body string.
 +
 When the +name+ property appears in a +form+ or +metadata+ object, the value of the +name+ field represents a non-unique identifier for the associated object. 
 
@@ -233,7 +233,7 @@ This is a boolean property which indicates whether the +value+ property of the a
 This is a boolean property which indicates whether the +value+ property of the associated +property+ object must be set to a non-empty value. Valid values are +"true"+ and +"false"+. If this property is missing from the object, is set to any other value than +"true"+ or +"false"+, or if the value of the +required+ property is not understood by the recipient, the assumed value of +required+ is +"false"+.
 
 +*rel*+::
-The value of the +rel+ property is a set of space-separated tokens that represent metadata about the associated +link+ object. There are several sources of valid +rel+ values (see <<iana-linkrels, [IANA-LINKRELS]>>) and rules for creating your own valid +rel+ values (see <<rfc8288, [RFC8288]>>). If the value of +rel+ is empty, un-parseable, or not understood it SHOULD be ignored.
+The value of the +rel+ property is a set of space-separated tokens that represent metadata about the associated +form+ object. There are several sources of valid +rel+ values (see <<iana-linkrels, [IANA-LINKRELS]>>) and rules for creating your own valid +rel+ values (see <<rfc8288, [RFC8288]>>). If the value of +rel+ is empty, un-parseable, or not understood it SHOULD be ignored.
 
 +*schema*+:: 
 The value of the +schema+ property represents a pointer to a schema document that can be used to describe (and possibly validate) the message. The +schema+ property is associated with an +item+ object. The contents of the +schema+ property is a valid URL that, when dereferenced, returns a schema document. By default, the type of schema document returned SHOULD be in JSON-Schema format (<<json-schema, [JSON-SCHEMA]>>) but other formats MAY be returned instead. This is an OPTIONAL field. If the value of +schema+ is empty or un-parseable, it SHOULD be ignored.
